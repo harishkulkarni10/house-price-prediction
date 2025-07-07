@@ -1,0 +1,126 @@
+=======================================
+House Price Prediction Project Flow
+=======================================
+
+This document outlines the complete, structured flow of the House Price Prediction Regression Project using the Ames Housing dataset. The project follows a production-style modular structure and is designed to be industry-grade for showcasing on GitHub and Kaggle.
+
+-----------------------------------------------------------------------------------------
+1. Data Ingestion
+
+- Load the raw data from `data/raw/train.csv` using the `load_data()` function.
+- This step brings the dataset into memory and ensures it's ready for further analysis.
+
+-----------------------------------------------------------------------------------------
+
+2. Exploratory Data Analysis (EDA) 
+(Location: notebooks/eda.ipynb)
+
+2.1 Basic overview:
+    - View shape, columns, info, describe, and null values.
+
+2.2 Group features:
+    - Group columns into numerical, categorical, ordinal, binary, etc.
+
+2.3 Target variable analysis:
+    - Plot distribution of `SalePrice`, check for skew and outliers.
+
+2.4 Correlation analysis:
+    - Plot correlation matrix for numerical variables.
+
+2.5 Top predictors:
+    - Extract top 10 most correlated features with `SalePrice`.
+
+2.6 Categorical relationships:
+    - Visualize categorical features (e.g., Neighborhood, HouseStyle) vs `SalePrice`.
+
+2.7 Numeric feature patterns:
+    - Boxplots for `OverallQual`, `YearBuilt`, etc. vs `SalePrice`.
+
+2.8 Identify issues:
+    - Detect messy features, inconsistent data, and outliers for cleaning.
+
+2.9 Storytelling:
+    - Add markdown cells with insights and trends observed in each step.
+
+-----------------------------------------------------------------------------------------
+
+3. Data Preprocessing
+(Location: src/preprocessing.py)
+3.1 Handle missing values:
+    - Based on column type and missingness pattern:
+        a) Categorical → 'None' if missing indicates absence
+        b) Numerical → 0 if missing indicates absence
+        c) Categorical → mode for low-missing fields
+        d) Numerical → median for low-missing fields
+        e) `LotFrontage` → fill using Neighborhood median
+
+3.2 Encoding categorical features:
+    - Ordinal encoding for ordered features (e.g., Quality)
+    - Binary mapping for features like CentralAir
+    - One-hot encoding for nominal variables
+
+3.3 Handle skewed features:
+    - Apply log or Box-Cox transform to reduce skew in continuous variables.
+
+3.4 Handle outliers:
+     - Detect outliers using boxplots, IQR, or z-score
+     - Remove or cap/floor based on business logic
+     - Visuals and markdown insights saved during EDA
+
+3.5 Feature scaling:
+    - Normalize or standardize features using StandardScaler/MinMaxScaler.
+
+3.6 Save processed data:
+    - Output cleaned data to `data/processed/processed_data.csv`.
+
+-----------------------------------------------------------------------------------------
+
+4. Feature Engineering
+(Location: src/preprocessing.py)
+- Create meaningful new features:
+    - Examples: TotalBathrooms, HouseAge, IsRemodeled, HasPool, etc.
+- Drop irrelevant/redundant columns.
+- Bucket or flag transformations if required.
+
+-----------------------------------------------------------------------------------------
+
+5. Model Building
+(Locations: src/linear_models.py, src/tree_models.py)
+
+- Implement and train the following models:
+    a) Linear Regression
+    b) Ridge Regression
+    c) Lasso Regression
+    d) Gradient Boosting (GBM)
+    e) XGBoost
+    f) LightGBM
+
+- Save each trained model into `models/` directory using joblib/pickle.
+
+-----------------------------------------------------------------------------------------
+
+6. Evaluation and Comparison
+(Location: src/evaluation.py, reports/)
+- Use RMSE, MAE, and R² as evaluation metrics.
+- Generate model performance plots (bar chart of RMSEs).
+- Plot residuals to visualize model fit.
+- Show feature importances from tree models.
+- Summarize all evaluation insights in `reports/summary.md`.
+
+-----------------------------------------------------------------------------------------
+
+7. Reporting & Final Deliverables
+(Locations: reports/, models/, README.md)
+- Reports:
+    - `reports/model_comparison.png`
+    - `reports/feature_importance.png`
+    - `reports/summary.md`: Business insights and recommendation
+
+- Models:
+    - All saved `.pkl` models in `models/`
+
+- Documentation:
+    - `README.md`: Project overview, setup, usage, and explanation
+
+
+

@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pkl
+*.joblib
+*.ipynb_checkpoints/
+data/raw/
+data/processed/
+.env
+.venv/
+.DS_Store
+# Ignore Jupyter Notebook checkpoints
